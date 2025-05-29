@@ -1,16 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@nestjs/common';
 import { FeedbackService } from '../feedback/feedback.service';
-import { PrismaService } from '../prisma.service';
 import axios, { AxiosResponse } from 'axios';
 import { ChatReply, PerplexityApiResponse } from './chat.types';
 
 @Injectable()
 export class ChatService {
-  constructor(
-    private prisma: PrismaService,
-    private feedbackService: FeedbackService,
-  ) {}
+  constructor(private feedbackService: FeedbackService) {}
 
   async getDynamicPrompt(): Promise<string> {
     const feedbacks = await this.feedbackService.findPositive();
@@ -33,12 +28,8 @@ export class ChatService {
   async handleFeedback(message: string): Promise<ChatReply> {
     const sanitizedPrompt: string = message.trim();
 
-    const feedbackEntry = await this.prisma.feedback.create({
-      data: {
-        prompt: sanitizedPrompt,
-        response: 'PENDING_RESPONSE',
-      },
-    });
+    const feedbackEntry =
+      await this.feedbackService.createFeedback(sanitizedPrompt);
 
     const dynamicPrompt: string = await this.getDynamicPrompt();
 
@@ -86,10 +77,10 @@ export class ChatService {
       } else if (typeof error === 'string') {
         errorMessage = error;
       }
-      await this.prisma.feedback.update({
-        where: { id: feedbackEntry.id },
-        data: { response: `API_ERROR: ${errorMessage}` },
-      });
+      await this.feedbackService.updateFeedbackResponse(
+        feedbackEntry.id,
+        `API_ERROR: ${errorMessage}`,
+      );
       throw new Error('Erro ao conectar com a API externa');
     }
 
@@ -99,11 +90,11 @@ export class ChatService {
       text: data?.choices?.[0]?.message,
     };
 
-    await this.prisma.feedback.update({
-      where: { id: feedbackEntry.id },
-      data: { response: reply.text?.content || JSON.stringify(reply) },
-    });
+    await this.feedbackService.updateFeedbackResponse(
+      feedbackEntry.id,
+      reply.text?.content || JSON.stringify(reply),
+    );
 
-    return { reply, feedbackId: Number(feedbackEntry.id) };
+    return { reply, feedbackId: feedbackEntry.id };
   }
 }

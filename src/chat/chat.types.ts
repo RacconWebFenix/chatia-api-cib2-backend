@@ -7,7 +7,7 @@ export interface ChatReply {
       [key: string]: unknown;
     };
   };
-  feedbackId: number;
+  feedbackId: string; // deve ser number, não string
 }
 
 // Tipagem para resposta da API externa (opcional, mas recomendado)
