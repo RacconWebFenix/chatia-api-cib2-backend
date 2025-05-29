@@ -12,7 +12,7 @@ export class FeedbackController {
 
   @Get('positive')
   async findPositive(@Query('limit') limit?: string) {
-    return this.feedbackService.findPositive(limit ? Number(limit) : undefined);
+    return this.feedbackService.findPositive(limit ? Number(limit) : 5);
   }
 
   // POST /feedbacks - criar feedback (caso queira criar manualmente)

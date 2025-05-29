@@ -5,6 +5,7 @@ import { PrismaService } from '../prisma.service';
 export class FeedbackService {
   constructor(private readonly prisma: PrismaService) {}
 
+  // Cria um novo feedback com prompt e resposta pendente
   async createFeedback(prompt: string) {
     return this.prisma.feedback.create({
       data: {
@@ -14,6 +15,7 @@ export class FeedbackService {
     });
   }
 
+  // Atualiza a resposta do feedback (usado após resposta da IA)
   async updateFeedbackResponse(id: string, response: string) {
     return this.prisma.feedback.update({
       where: { id },
@@ -21,6 +23,7 @@ export class FeedbackService {
     });
   }
 
+  // Atualiza avaliação do usuário (nota, comentário, positivo/negativo)
   async updateUserFeedback(
     id: string,
     rating?: number | null,
@@ -37,17 +40,37 @@ export class FeedbackService {
     });
   }
 
-  async findAll() {
-    return this.prisma.feedback.findMany({
-      orderBy: { id: 'desc' },
-    });
-  }
-
-  async findPositive(limit?: number) {
+  // Busca feedbacks positivos
+  async findPositive(limit = 15) {
     return this.prisma.feedback.findMany({
       where: { userFeedback: 'positivo' },
       orderBy: { id: 'desc' },
       take: limit,
+    });
+  }
+
+  // Busca feedbacks negativos
+  async findNegative(limit = 15) {
+    return this.prisma.feedback.findMany({
+      where: { userFeedback: 'negativo' },
+      orderBy: { id: 'desc' },
+      take: limit,
+    });
+  }
+
+  // Busca feedbacks por tipo (positivo/negativo)
+  async findByType(type: 'positivo' | 'negativo', limit = 15) {
+    return this.prisma.feedback.findMany({
+      where: { userFeedback: type },
+      orderBy: { id: 'desc' },
+      take: limit,
+    });
+  }
+
+  // Busca todos os feedbacks
+  async findAll() {
+    return this.prisma.feedback.findMany({
+      orderBy: { id: 'desc' },
     });
   }
 }

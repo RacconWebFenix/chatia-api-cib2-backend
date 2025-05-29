@@ -8,13 +8,29 @@ export class ChatService {
   constructor(private feedbackService: FeedbackService) {}
 
   async getDynamicPrompt(): Promise<string> {
-    const feedbacks = await this.feedbackService.findPositive();
+    const feedbacksPositivos = await this.feedbackService.findPositive();
+    const feedbacksNegativos =
+      (await this.feedbackService.findNegative?.()) ??
+      (await this.feedbackService.findByType?.('negativo')) ??
+      []; // Use o método correto do seu FeedbackService
 
     let dynamicPart = '';
-    if (feedbacks.length > 0) {
-      dynamicPart =
+
+    if (feedbacksPositivos.length > 0) {
+      dynamicPart +=
         '\nExemplos de respostas bem avaliadas pelos usuários:\n' +
-        feedbacks
+        feedbacksPositivos
+          .map(
+            (f, i) =>
+              `${i + 1}. Pergunta: ${f.prompt}\nResposta: ${f.response}\n`,
+          )
+          .join('\n');
+    }
+
+    if (feedbacksNegativos.length > 0) {
+      dynamicPart +=
+        '\nExemplos de respostas que NÃO agradaram os usuários (evite este tipo de resposta):\n' +
+        feedbacksNegativos
           .map(
             (f, i) =>
               `${i + 1}. Pergunta: ${f.prompt}\nResposta: ${f.response}\n`,
