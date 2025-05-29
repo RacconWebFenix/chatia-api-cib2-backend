@@ -46,8 +46,7 @@
       "response": "Resposta positiva",
       "userFeedback": "positivo",
       ...
-    },
-    ...
+    }
   ]
   ```
 
@@ -66,7 +65,58 @@
 - **Método:** `GET`
 - **Endpoint:** `/feedbacks/positive`
 - **Query param opcional:** `limit` (ex: `/feedbacks/positive?limit=10`)
-- **Descrição:** Retorna apenas os feedbacks positivos, útil para administração ou análise.
+- **Descrição:** Retorna apenas os feedbacks positivos.
+
+---
+
+### 5. Listar feedbacks negativos
+
+- **Método:** `GET`
+- **Endpoint:** `/feedbacks/negative`
+- **Query param opcional:** `limit` (ex: `/feedbacks/negative?limit=10`)
+- **Descrição:** Retorna apenas os feedbacks negativos.
+
+---
+
+### 6. Listar feedbacks por tipo
+
+- **Método:** `GET`
+- **Endpoint:** `/feedbacks/type`
+- **Query params obrigatórios:**
+  - `type`: `"positivo"` ou `"negativo"`
+  - `limit` (opcional, ex: `/feedbacks/type?type=negativo&limit=10`)
+- **Descrição:** Retorna feedbacks filtrados por tipo.
+
+---
+
+### 7. Criar feedback manualmente
+
+- **Método:** `POST`
+- **Endpoint:** `/feedback`
+- **Body (JSON):**
+  ```json
+  {
+    "prompt": "Qual o melhor óleo para motor?"
+  }
+  ```
+- **Descrição:** Cria um novo feedback manualmente (geralmente não usado pelo front, mas disponível).
+
+---
+
+### 8. Atualizar feedback do usuário
+
+- **Método:** `PUT`
+- **Endpoint:** `/feedback`
+- **Body (JSON):**
+  ```json
+  {
+    "feedbackId": 1,
+    "rating": 5,
+    "comment": "Muito bom!",
+    "userFeedback": "positivo"
+  }
+  ```
+- **Descrição:** Atualiza a avaliação do usuário para um feedback já criado.
 
 ---
 
@@ -74,7 +124,7 @@
 
 Você pode testar as rotas usando ferramentas como **Insomnia** ou **Postman**:
 
-- Para rotas `POST`, selecione o método, insira a URL e o body em JSON.
+- Para rotas `POST` e `PUT`, selecione o método, insira a URL e o body em JSON.
 - Para rotas `GET`, basta acessar a URL no navegador ou na ferramenta.
 
 ---
