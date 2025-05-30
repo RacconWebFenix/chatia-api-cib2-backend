@@ -1,4 +1,13 @@
-import { Controller, Get, Query, Post, Put, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Post,
+  Put,
+  Body,
+  Delete,
+  Param,
+} from '@nestjs/common';
 import { FeedbackService } from './feedback.service';
 
 @Controller('feedbacks')
@@ -35,5 +44,11 @@ export class FeedbackController {
       comment,
       userFeedback,
     );
+  }
+
+  // DELETE /feedbacks/:id
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return this.feedbackService.deleteFeedback(id);
   }
 }

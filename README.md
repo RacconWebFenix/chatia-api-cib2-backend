@@ -37,18 +37,6 @@
 - **Endpoint:** `/chat/feedbacks`
 - **Query param opcional:** `limit` (ex: `/chat/feedbacks?limit=5`)
 - **Descrição:** Retorna os últimos feedbacks positivos, usados para montar o prompt dinâmico.
-- **Exemplo de resposta:**
-  ```json
-  [
-    {
-      "id": 10,
-      "prompt": "Pergunta do usuário",
-      "response": "Resposta positiva",
-      "userFeedback": "positivo",
-      ...
-    }
-  ]
-  ```
 
 ---
 
@@ -56,7 +44,7 @@
 
 - **Método:** `GET`
 - **Endpoint:** `/feedbacks`
-- **Descrição:** Retorna todos os feedbacks registrados no sistema.
+- **Descrição:** Retorna todos os feedbacks registrados no sistema, incluindo campos de timestamp (`createdAt`, `updatedAt`).
 
 ---
 
@@ -92,21 +80,21 @@
 ### 7. Criar feedback manualmente
 
 - **Método:** `POST`
-- **Endpoint:** `/feedback`
+- **Endpoint:** `/feedbacks`
 - **Body (JSON):**
   ```json
   {
     "prompt": "Qual o melhor óleo para motor?"
   }
   ```
-- **Descrição:** Cria um novo feedback manualmente (geralmente não usado pelo front, mas disponível).
+- **Descrição:** Cria um novo feedback manualmente.
 
 ---
 
 ### 8. Atualizar feedback do usuário
 
 - **Método:** `PUT`
-- **Endpoint:** `/feedback`
+- **Endpoint:** `/feedbacks`
 - **Body (JSON):**
   ```json
   {
@@ -120,11 +108,23 @@
 
 ---
 
+### 9. Deletar feedback
+
+- **Método:** `DELETE`
+- **Endpoint:** `/feedbacks/:id`
+- **Descrição:** Deleta um feedback pelo seu ID.
+- **Exemplo:**
+  ```
+  DELETE /feedbacks/1
+  ```
+
+---
+
 ## Como testar
 
 Você pode testar as rotas usando ferramentas como **Insomnia** ou **Postman**:
 
-- Para rotas `POST` e `PUT`, selecione o método, insira a URL e o body em JSON.
+- Para rotas `POST`, `PUT` e `DELETE`, selecione o método, insira a URL e o body em JSON (quando necessário).
 - Para rotas `GET`, basta acessar a URL no navegador ou na ferramenta.
 
 ---

@@ -73,4 +73,11 @@ export class FeedbackService {
       orderBy: { timestamp: 'desc' }, // ordem crescente de criação
     });
   }
+
+  // Deleta um feedback pelo ID
+  async deleteFeedback(id: string) {
+    return this.prisma.feedback.delete({
+      where: { id },
+    });
+  }
 }
