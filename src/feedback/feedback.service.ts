@@ -70,7 +70,7 @@ export class FeedbackService {
   // Busca todos os feedbacks
   async findAll() {
     return this.prisma.feedback.findMany({
-      orderBy: { id: 'desc' },
+      orderBy: { timestamp: 'desc' }, // ordem crescente de criação
     });
   }
 }
