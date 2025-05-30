@@ -13,7 +13,7 @@ export class ChatPdmService {
           role: 'user',
           parts: [
             {
-              text: 'Qual é o PDM (Padrão de Descriçao de Materiais) para o material apesquisado? Por favor, forneça uma resposta detalhada e completa.',
+              text: 'Qual é o PDM (Padrão de Descrição de Materiais) para o material apesquisado? Por favor, forneça uma resposta detalhada e completa com possiveis aplicações.',
             },
           ],
         },
