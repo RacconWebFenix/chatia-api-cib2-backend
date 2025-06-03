@@ -120,6 +120,34 @@
 
 ---
 
+### 10. Buscar PDM (Padrão de Descrição de Materiais) com Gemini
+
+- **Método:** `POST`
+- **Endpoint:** `/chatpdm`
+- **Body (JSON):**
+  ```json
+  {
+    "text": "chapa de aço"
+  }
+  ```
+- **Descrição:** O backend monta o body completo para a API Gemini e retorna a resposta do modelo.
+
+---
+
+### 11. Busca de preços
+
+- **Método:** `POST`
+- **Endpoint:** `/price-search`
+- **Body (JSON):**
+  ```json
+  {
+    "text": "Filtro de Oleo wo610 ddd: 16"
+  }
+  ```
+- **Descrição:** Busca preços de produtos em diferentes regiões e retorna os resultados.
+
+---
+
 ## Como testar
 
 Você pode testar as rotas usando ferramentas como **Insomnia** ou **Postman**:
