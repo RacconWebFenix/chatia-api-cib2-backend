@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { FeedbackService } from '../feedback/feedback.service';
 import axios, { AxiosResponse } from 'axios';
-import { ChatReply, PerplexityApiResponse } from './chat.types';
+import { ChatReply, PerplexityApiResponse } from '../chat.types';
 
 @Injectable()
 export class ChatService {

@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Injectable } from '@nestjs/common';
 import { ChatService } from './chat/chat.service';
-import { ChatReply } from './chat/chat.types';
+import { ChatReply } from './chat.types';
 
 @Injectable()
 export class AppService {
