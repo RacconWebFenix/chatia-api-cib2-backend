@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import axios, { AxiosResponse } from 'axios';
 import { CreatePriceSearchDto } from './dto/create-price_search.dto';
-import { PerplexityApiResponse } from 'src/chat.types';
+import { ChatReply, PerplexityApiResponse } from 'src/chat.types';
 
 @Injectable()
 export class PriceSearchService {
@@ -52,7 +52,12 @@ export class PriceSearchService {
         `Erro ao conectar com a API de busca de preços: ${errorMessage}`,
       );
     }
+    const reply: ChatReply['reply'] = {
+      citations: data?.citations,
+      images: data?.images,
+      text: data?.choices?.[0]?.message,
+    };
 
-    return data;
+    return reply;
   }
 }
